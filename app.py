@@ -1,4 +1,3 @@
-import os
 import bcrypt
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -9,7 +8,6 @@ from flask_marshmallow import Marshmallow
 app = Flask(__name__)
 heroku = Heroku(app)
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://ndqbfkziohkzeb:9bc936bfdd050b1a3a20e151463fb443a07be1066c0017f2bf0d252929028cd8@ec2-107-21-216-112.compute-1.amazonaws.com:5432/d5fklgc90rvprp"
 
 CORS(app)
@@ -20,15 +18,10 @@ ma = Marshmallow(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    username = db.Column(db.String(length=10), unique=True, nullable=False)
+    name = db.Column(db.String(26), nullable=False)
+    username = db.Column(db.String(26), unique=True, nullable=False)
     password = db.Column(db.LargeBinary(), nullable=False)
 
-    exercises = db.relationship("Exercise", cascade="all, delete-orphan")
-    exercise_stats = db.relationship("ExerciseStat", cascade="all, delete-orphan")
-    exercise_goals = db.relationship("ExerciseGoal", cascade="all, delete-orphan")
-    body_measurements = db.relationship("BodyMeasurement", cascade="all, delete-orphan")
-    body_measurement_goals = db.relationship("BodyMeasurementGoal", cascade="all, delete-orphan")
 
     def __init__(self, name, username, password):
         self.name = name
