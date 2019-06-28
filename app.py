@@ -1,4 +1,6 @@
+import os
 import bcrypt
+import psycopg2
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_heroku import Heroku
@@ -86,6 +88,10 @@ def login():
         invalid = {"valid": False, "reason": "User doesn't exist"}
 
         return jsonify(invalid)
+
+# UPDATE
+
+# DELETE
 
 
 if __name__ == '__main__':
